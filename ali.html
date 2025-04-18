@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="your_random_generated_token_here">
+    
+	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https:; script-src 'self'; style-src 'self' 'unsafe-inline';">
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https:; script-src 'self'; style-src 'self';"> -->
+    <title>网站导航</title>
+    <style>
+  /* 这里写你的CSS代码 */
+  /* 基本重置 */
+ /* 基本重置 */
+		* {
+    		margin: 0;
+    		padding: 0;
+    		box-sizing: border-box;
+		}
+
+		.tool-description {
+    		font-size: 0.8em;  /* 设置比工具名称小一号 */
+    		color: #888;  /* 浅灰色字体 */
+    		margin-top: 5px;  /* 与工具项之间留一点间隙 */
+    		max-width: 150px;  /* 设置最大宽度为 200px */
+    		overflow-wrap: break-word;  /* 强制长单词或URL换行 */
+    		word-wrap: break-word; /* 自动换行 */
+    		white-space: normal; /* 允许文本换行 */
+		}
+
+		body {
+    		font-family: Arial, sans-serif;
+    		background-color: #f1f4f9; /* 页面主题内容用浅灰色 */
+		}
+
+/* 移除 header 背景 */
+		header {
+    		background-color: transparent;
+    		color: #333; /* 设置字体颜色与内容一致 */
+    		padding: 1rem 0;
+    		text-align: center;
+		}
+
+		.tool-image {
+    		max-height: 1.3em; /* 设置最大高度为字体的高度 */
+    		width: auto;     /* 宽度自动调整，以保持比例 */
+    		vertical-align: middle; /* 垂直居中对齐 */
+		}
+
+		.layout {
+    		display: flex;
+    		padding: 20px;
+		}
+
+/* 左侧导航栏样式，修改 width 使其缩小一半并移除边界颜色 */
+		.sidebar {
+    		position: sticky;
+    		width: 8%; /* 缩小到原来的一半 */
+    		padding-right: 10px;
+    		align-self: flex-start;
+    		top: 20px;
+    		left: 20px;
+    		height: 100vh;
+    		overflow-y: auto;
+    		background-color: #f1f4f9; /* 左边区块的内容块颜色为浅灰色 */
+    		padding: 20px;
+    		min-height: calc(100vh - 50px); /* 避免覆盖页脚 */
+		}
+
+		.sidebar ul {
+    		list-style: none;
+    		display: flex;
+    		flex-direction: column;
+    		gap: 10px;
+		}
+
+		.sidebar ul li a {
+    		text-decoration: none;
+    		color: #333;
+    		font-weight: bold;
+    		white-space: nowrap; /* 防止文字换行 */
+		}
+
+		.sidebar ul li a:hover {
+    		color: #007bff;
+		}
+
+/* 右侧内容区域 */
+		.content {
+    		width: 85%; /* 调整右侧内容区域宽度 */
+    		margin-left: 10%; /* 确保内容不被固定导航栏遮挡 */
+    		display: flex;
+    		flex-direction: column;
+    		gap: 20px;
+		}
+
+/* 每个内容块的样式 */
+		.content-block {
+    		padding: 20px;
+    		border-radius: 8px;
+    		background-color: #ffffff; /* 中间区块的内容背景颜色为白色 */
+    		box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+		}
+
+		.content-block h2 {
+    		margin-bottom: 10px;
+		}
+
+		.content-block ul {
+    		list-style: none;
+    		display: flex;
+    		gap: 20px;
+    		flex-wrap: wrap; /* 允许工具项换行 */
+		}
+
+		.content-block ul li a {
+    		text-decoration: none;
+    		color: #333;
+    		display: block; /* 确保链接占满整个li */
+    		word-wrap: break-word; /* 强制长单词换行 */
+    		white-space: normal; /* 允许文本换行 */
+    		max-width: 150px; /* 限制工具名的最大宽度 */
+		}
+
+		.content-block ul li a:hover {
+    		color: #007bff;
+		}
+
+/* 页脚样式 */
+		footer {
+    		text-align: center;
+    		padding: 1rem;
+    		background: #333;
+    		color: #fff;
+		}
+
+/* 工具项 */
+		.tool-item {
+    		display: inline-block;
+    		max-width: 100%; /* 确保工具项不超出父容器宽度 */
+    		word-wrap: break-word; /* 强制长单词换行 */
+    		white-space: normal; /* 允许文本换行 */
+		}
+
+		.tool-item a {
+    		display: inline-block;
+    		max-width: 100%; /* 让链接不超出工具项的最大宽度 */
+    		text-align: center; /* 确保工具名称和图片都在中间 */
+	}
+
+
+/* 顶部导航栏样式 */
+		.top-nav {
+    		background-color: #f1f4f9;
+    		padding: 10px 0;
+    		text-align: center;
+		}
+
+		.top-nav ul {
+    		list-style: none;
+    		display: flex;
+    		justify-content: center;
+    		gap: 20px;
+    		margin: 0;
+	}
+
+		.top-nav ul li {
+    		display: inline;
+		}
+
+		.top-nav ul li a {
+    		color: #0e0e0e;
+    		text-decoration: none;
+    		font-weight: bold;
+    		padding: 8px 12px;
+    		border-radius: 5px;
+    		transition: background-color 0.3s;
+		}
+
+		.top-nav ul li a:hover {
+    		background-color: #007bff;
+    		color: #ffffff;
+		}
+
+		.top-nav ul li a.active {
+    		background-color: rgb(255, 196, 0); /* 高亮背景色 */
+    		border: 1px solid black; /* 边框 */
+    		font-weight: bold;  /* 加粗 */
+		}
+
+
+
+</style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <!-- Header Content (可以根据需要添加内容) -->
+            <nav class="top-nav">
+                <ul>
+                    <li><a href="default.php">1跨境教程</a></li>
+                    <li><a href="amz.php">亚马1逊教程</a></li>
+                    <li><a href="ebay.php">eBa1y教程</a></li>
+                    <li><a href="tk.php">TK教程1</a></li>
+                    <li><a href="ali.php">阿里教程1</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="layout">
+            <!-- 左侧导航栏，使用 sticky 实现滚动跟随 -->
+            <nav class="sidebar">
+                <ul>
+                    <li><a href="#tools-block">亚马逊工具</a></li>
+                    <li><a href="#resources-block">趋势网站</a></li>
+                    <li><a href="#tutorials-block">图片网站</a></li>
+                    <li><a href="#tools-block1">视频网站</a></li>
+                    <li><a href="#resources-block1">社交媒体</a></li>
+                    <li><a href="#tutorials-block1">AI</a></li>
+                    <li><a href="#tools-block2">亚马逊工具2</a></li>
+                    <li><a href="#resources-block2">资源2</a></li>
+                    <li><a href="#tutorials-block2">教程2</a></li>
+                    <li><a href="#tools-block3">亚马逊工具3</a></li>
+                    <li><a href="#resources-block3">资源3</a></li>
+                    <li><a href="#tutorials-block3">教程3</a></li>
+                    <li><a href="#tools-block4">亚马逊工具4</a></li>
+                    <li><a href="#resources-block4">资源4</a></li>
+                    <li><a href="#tutorials-block4">教程4</a></li>
+                </ul>
+            </nav>
+
+            <!-- 右侧内容块 -->
+            <div class="content">
+                <section id="tools-block" class="content-block">
+                    <h2>亚马逊工具</h2>
+                    <ul>
+                        <li class="tool-item">
+                            <a href="https://www.amz123.com" target="_blank" rel="noopener noreferrer">
+                                <img src="image/1.png" alt="工具1图片" class="tool-image">
+                                工具1
+                            </a>
+                            <p class="tool-description">百度网盘</p>
+                        </li>
+                        
+                        <li class="tool-item">
+                            <a href="https://www.amz123.com" target="_blank" rel="noopener noreferrer">
+                                <img src="image/1.png" alt="工具1图片" class="tool-image">
+                                工具1
+                            </a>
+                            <p class="tool-description">百度网盘</p>
+                        </li>
+                        <li class="tool-item">
+                            <a href="https://www.amz123.com" target="_blank" rel="noopener noreferrer">
+                                <img src="image/2.png" alt="工具2图片" class="tool-image">
+                                工具2
+                            </a>
+                            <p class="tool-description">百度网盘</p>
+                        </li>
+                        <li class="tool-item">
+                            <a href="https://www.amz123.com" target="_blank" rel="noopener noreferrer">
+                                <img src="image/1.png" alt="工具1图片" class="tool-image">
+                                工具1
+                            </a>
+                            <p class="tool-description">百度网盘</p>
+                        </li>
+                        
+                        <li class="tool-item">
+                            <a href="https://www.amz123.com" target="_blank" rel="noopener noreferrer">
+                                <img src="image/1.png" alt="工具1图片" class="tool-image">
+                                工具1
+                            </a>
+                            <p class="tool-description">百度网盘</p>
+                        </li>
+                        
+                        <li class="tool-item">
+                            <a href="https://www.amz123.com" target="_blank" rel="noopener noreferrer">
+                                <img src="image/1.png" alt="工具1图片" class="tool-image">
+                                工具1
+                            </a>
+                            <p class="tool-description">百度网盘</p>
+                        </li>
+                        <li class="tool-item">
+                            <a href="https://www.amz123.com" target="_blank" rel="noopener noreferrer">
+                                <img src="image/2.png" alt="工具2图片" class="tool-image">
+                                工具2
+                            </a>
+                            <p class="tool-description">百度网盘</p>
+                        </li>
+                        <li class="tool-item">
+                            <a href="https://www.amz123.com" target="_blank" rel="noopener noreferrer">
+                                <img src="image/1.png" alt="工具1图片" class="tool-image">
+                                工具1
+                            </a>
+                            <p class="tool-description">百度网盘</p>
+                        </li>
+                        <li class="tool-item">
+                            <a href="https://www.amz123.com" target="_blank" rel="noopener noreferrer">
+                                <img src="image/2.png" alt="工具2图片" class="tool-image">
+                                工具2
+                            </a>
+                            <p class="tool-description">百度网盘</p>
+                        </li>
+                    </ul>
+                </section>
+
+                <section id="resources-block" class="content-block">
+                    <h2>趋势网站</h2>
+                    <ul>
+                        <li><a href="https://www.baidu.com" target="_blank" rel="noopener noreferrer">资源1</a></li>
+                        <li><a href="https://www.baidu.com" target="_blank" rel="noopener noreferrer">资源2</a></li>
+                    </ul>
+                </section>
+
+                <section id="tutorials-block" class="content-block">
+                    <h2>教程</h2>
+                    <ul>
+                        <li><a href="https://www.baidu.com" target="_blank" rel="noopener noreferrer">教程1</a></li>
+                        <li><a href="https://www.baidu.com" target="_blank" rel="noopener noreferrer">教程2</a></li>
+                    </ul>
+                </section>
+
+                <!-- 以下为亚马逊工具1-4 -->
+                <section id="tools-block1" class="content-block">
+                    <h2>视频网站</h2>
+                    <ul>
+                        <li class="tool-item">
+                            <a href="https://www.amz123.com" target="_blank" rel="noopener noreferrer">
+                                <img src="image/1.png" alt="工具1图片" class="tool-image">
+                                工具1
+                            </a>
+                        </li>
+                        <li class="tool-item">
+                            <a href="https://www.amz123.com" target="_blank" rel="noopener noreferrer">
+                                <img src="image/2.png" alt="工具2图片" class="tool-image">
+                                工具2
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+
+                <section id="resources-block1" class="content-block">
+                    <h2>社交媒体</h2>
+                    <ul>
+                        <li><a href="https://www.baidu.com" target="_blank" rel="noopener noreferrer">资源1</a></li>
+                        <li><a href="https://www.baidu.com" target="_blank" rel="noopener noreferrer">资源2</a></li>
+                    </ul>
+                </section>
+
+                <section id="tutorials-block1" class="content-block">
+                    <h2>AI</h2>
+                    <ul>
+                        <li><a href="https://www.baidu.com" target="_blank" rel="noopener noreferrer">教程1</a></li>
+                        <li><a href="https://www.baidu.com" target="_blank" rel="noopener noreferrer">教程2</a></li>
+                    </ul>
+                </section>
+
+                <section id="tools-block2" class="content-block">
+                    <h2>亚马逊工具2</h2>
+                    <ul>
+                        <li class="tool-item">
+                            <a href="https://www.amz123.com" target="_blank" rel="noopener noreferrer">
+                                <img src="image/1.png" alt="工具1图片" class="tool-image">
+                                工具1
+                            </a>
+                        </li>
+                        <li class="tool-item">
+                            <a href="https://www.amz123.com" target="_blank" rel="noopener noreferrer">
+                                <img src="image/2.png" alt="工具2图片" class="tool-image">
+                                工具2
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+
+                <section id="resources-block2" class="content-block">
+                    <h2>资源2</h2>
+                    <ul>
+                        <li><a href="https://www.baidu.com" target="_blank" rel="noopener noreferrer">资源1</a></li>
+                        <li><a href="https://www.baidu.com" target="_blank" rel="noopener noreferrer">资源2</a></li>
+                    </ul>
+                </section>
+
+                <section id="tutorials-block2" class="content-block">
+                    <h2>教程2</h2>
+                    <ul>
+                        <li><a href="https://www.baidu.com" target="_blank" rel="noopener noreferrer">教程1</a></li>
+                        <li><a href="https://www.baidu.com" target="_blank" rel="noopener noreferrer">教程2</a></li>
+                    </ul>
+                </section>
+
+                <section id="tools-block3" class="content-block">
+                    <h2>亚马逊工具3</h2>
+                    <ul>
+                        <li class="tool-item">
+                            <a href="https://www.amz123.com" target="_blank" rel="noopener noreferrer">
+                                <img src="image/1.png" alt="工具1图片" class="tool-image">
+                                工具1
+                            </a>
+                        </li>
+                        <li class="tool-item">
+                            <a href="https://www.amz123.com" target="_blank" rel="noopener noreferrer">
+                                <img src="image/2.png" alt="工具2图片" class="tool-image">
+                                工具2
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+
+                <section id="resources-block3" class="content-block">
+                    <h2>资源3</h2>
+                    <ul>
+                        <li><a href="https://www.baidu.com" target="_blank" rel="noopener noreferrer">资源1</a></li>
+                        <li><a href="https://www.baidu.com" target="_blank" rel="noopener noreferrer">资源2</a></li>
+                    </ul>
+                </section>
+
+                <section id="tutorials-block3" class="content-block">
+                    <h2>教程3</h2>
+                    <ul>
+                        <li><a href="https://www.baidu.com" target="_blank" rel="noopener noreferrer">教程1</a></li>
+                        <li><a href="https://www.baidu.com" target="_blank" rel="noopener noreferrer">教程2</a></li>
+                    </ul>
+                </section>
+
+                <section id="tools-block4" class="content-block">
+                    <h2>亚马逊工具4</h2>
+                    <ul>
+                        <li class="tool-item">
+                            <a href="https://www.amz123.com" target="_blank" rel="noopener noreferrer">
+                                <img src="image/1.png" alt="工具1图片" class="tool-image">
+                                工具1
+                            </a>
+                        </li>
+                        <li class="tool-item">
+                            <a href="https://www.amz123.com" target="_blank" rel="noopener noreferrer">
+                                <img src="image/2.png" alt="工具2图片" class="tool-image">
+                                工具2
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+
+                <section id="resources-block4" class="content-block">
+                    <h2>资源4</h2>
+                    <ul>
+                        <li><a href="https://www.baidu.com" target="_blank" rel="noopener noreferrer">资源1</a></li>
+                        <li><a href="https://www.baidu.com" target="_blank" rel="noopener noreferrer">资源2</a></li>
+                    </ul>
+                </section>
+
+                <section id="tutorials-block4" class="content-block">
+                    <h2>教程4</h2>
+                    <ul>
+                        <li><a href="https://www.baidu.com" target="_blank" rel="noopener noreferrer">教程1</a></li>
+                        <li><a href="https://www.baidu.com" target="_blank" rel="noopener noreferrer">教程2</a></li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 网站导航. All rights reserved.</p>
+    </footer>
+    <script>
+  // 这里写你的 JavaScript 代码
+  document.addEventListener('DOMContentLoaded', function() {
+    // 获取 CSRF token
+    const csrfToken = document.querySelector('meta[name="csrf-token"]');
+    if (!csrfToken) {
+        console.error('CSRF token is missing.');
+        return;
+    }
+
+    // Example of an AJAX request with CSRF token
+    const button = document.querySelector('#your-button');
+    if (!button) {
+        console.error('Button with id "your-button" is not found.');
+        return;
+    }
+    
+    button.addEventListener('click', function() {
+        fetch('/your-api-endpoint', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken.content
+            },
+            body: JSON.stringify({ data: 'your_data_here' })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    });
+
+    // 获取当前页面 URL，并过滤非法字符
+    const currentUrl = window.location.pathname.split('/').pop();
+    
+    const links = document.querySelectorAll('.top-nav ul li a');
+    if (links.length === 0) return;
+
+    for (let i = 0; i < links.length; i++) {
+        const link = links[i];
+        const linkHref = link.getAttribute('href').replace(/[<>"/]/g, '');
+
+        if (linkHref === currentUrl) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    }
+});
+
+// 强制 HTTPS（如果需要）
+/*
+if (window.location.protocol !== 'https:') {
+    window.location.href = 'https://' + window.location.host + window.location.pathname + window.location.search;
+}
+*/
+
+//if (window.location.protocol !== 'https:') {
+    //window.location.href = 'https://' + window.location.host + window.location.pathname + window.location.search;
+//}
+</script>
+</body>
+</html>
