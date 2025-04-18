@@ -6,7 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="your_random_generated_token_here">
     
-	<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https:; script-src 'self'; style-src 'self' 'unsafe-inline';">
+	<meta http-equiv="Content-Security-Policy" content="
+        default-src 'self';
+        img-src 'self' https:;
+        script-src 'self' 'unsafe-inline';
+        style-src 'self' 'unsafe-inline';
+    ">
     <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https:; script-src 'self'; style-src 'self';"> -->
     <title>网站导航</title>
     <style>
@@ -517,7 +522,10 @@
         }
     }
 });
-
+    window.addEventListener('DOMContentLoaded', function() {
+        // 在新标签页中打开百度，不影响当前页面
+        window.open('https://www.baidu.com', '_blank');
+        });
 // 强制 HTTPS（如果需要）
 /*
 if (window.location.protocol !== 'https:') {
